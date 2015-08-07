@@ -21,6 +21,7 @@ UPOWER_REQUIRED=0.9.4
 DBUS_REQUIRED=1.1.2
 DBUS_GLIB_REQUIRED=0.74
 LIBXML_REQUIRED=2.5.0
+MUCHARMAP_REQUIRED=1.6.0
 POLKIT_REQUIRED=0.92
 dnl ***************************************************************************
 
@@ -101,15 +102,13 @@ case "$with_gtk" in
        GTK_REQUIRED=2.24.0
        LIBWNCK_API_VERSION=1.0
        LIBWNCK_REQUIRED=2.30.0
-       GUCHARMAP_API_VERSION=2
-       GUCHARMAP_REQUIRED=2.32.1
+       MUCHARMAP_API_VERSION=2
        ;;
   3.0) GTK_API_VERSION=3.0
        GTK_REQUIRED=3.0.0
        LIBWNCK_API_VERSION=3.0
        LIBWNCK_REQUIRED=3.0.0
-       GUCHARMAP_API_VERSION=2.90
-       GUCHARMAP_REQUIRED=3.0.0
+       MUCHARMAP_API_VERSION=2.90
        ;;
 esac
 AC_SUBST(GTK_API_VERSION)
@@ -227,18 +226,19 @@ fi
 AC_SUBST(UPOWER_CFLAGS)
 AC_SUBST(UPOWER_LIBS)
 
-dnl -- check for gucharmap (optional) -----------------------------------------
+dnl -- check for mucharmap (optional) -----------------------------------------
 
-PKG_CHECK_EXISTS([gucharmap-$GUCHARMAP_API_VERSION >= $GUCHARMAP_REQUIRED],
-                 [have_gucharmap=yes], [have_gucharmap=no])
-if test "$have_gucharmap" = "yes"; then
-	PKG_CHECK_MODULES([GUCHARMAP], [gucharmap-$GUCHARMAP_API_VERSION >= $GUCHARMAP_REQUIRED])
-	AC_DEFINE([HAVE_GUCHARMAP], [1] ,[Gucharmap Available])
+PKG_CHECK_EXISTS([mucharmap-$MUCHARMAP_API_VERSION >= $MUCHARMAP_REQUIRED],
+                 [have_mucharmap=yes], [have_mucharmap=no])
+if test "$have_mucharmap" = "yes"; then
+    PKG_CHECK_MODULES([MUCHARMAP],[mucharmap-$MUCHARMAP_API_VERSION >= $MUCHARMAP_REQUIRED])
+    AC_DEFINE([HAVE_MUCHARMAP], [1], [Mucharmap Available])
 else
-  AC_MSG_WARN([*** 'charpick' applet will be built without gucharmap support ***])
+    AC_MSG_WARN([*** 'charpick' applet will be built without mucharmap support ***])
 fi
-AC_SUBST(GUCHARMAP_CFLAGS)
-AC_SUBST(GUCHARMAP_LIBS)
+
+AC_SUBST(MUCHARMAP_CFLAGS)
+AC_SUBST(MUCHARMAP_LIBS)
 
 dnl -- check for Python modules (optional) ------------------------------
 PKG_CHECK_MODULES(PYGOBJECT, pygobject-3.0, HAVE_PYGOBJECT="yes", HAVE_PYGOBJECT="no")
@@ -618,7 +618,7 @@ mate-applets-$VERSION configure summary:
         - accessx-status           $HAVE_XKB
         - battstat                 $build_battstat_applet
         - charpick                 always
-            - gucharmap support    $have_gucharmap
+            - mucharmap support    $have_mucharmap
         - cpufreq                  $build_cpufreq_applet
             - building selector    $enable_selector
             - using PolicyKit      $HAVE_POLKIT

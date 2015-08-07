@@ -6,7 +6,7 @@ AM_CPPFLAGS =					\
 	-DCHARPICK_MENU_UI_DIR=\""$(uidir)"\"	\
 	$(MATE_APPLETS4_CFLAGS)		\
 	$(MATEDESKTOP_CFLAGS)		\
-	$(GUCHARMAP_CFLAGS)
+	$(MUCHARMAP_CFLAGS)
 
 libexec_PROGRAMS = mate-charpick-applet
 
@@ -17,7 +17,7 @@ mate_charpick_applet_SOURCES = charpick.c \
 mate_charpick_applet_LDADD = \
 		       $(MATE_APPLETS4_LIBS)	\
 		       $(MATEDESKTOP_LIBS)	\
-		       $(GUCHARMAP_LIBS)
+		       $(MUCHARMAP_LIBS)
 
 appletdir       = $(datadir)/mate-panel/applets
 applet_in_files = org.mate.applets.CharpickerApplet.mate-panel-applet.in
